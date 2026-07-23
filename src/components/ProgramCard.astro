@@ -1,0 +1,36 @@
+---
+import type { Program } from '../data/programs';
+
+interface Props {
+  program: Program;
+}
+
+const { program } = Astro.props;
+---
+
+<a href={`/programs/${program.slug}/`} class="card program-card">
+  <span class="tag">{program.category}</span>
+  <h3>{program.name}</h3>
+  <p>{program.summary}</p>
+  <span class="program-card__link">Learn more &rarr;</span>
+</a>
+
+<style>
+  .program-card {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .program-card p {
+    color: var(--color-ink-700);
+    flex-grow: 1;
+  }
+
+  .program-card__link {
+    font-weight: 600;
+    color: var(--color-green-700);
+    font-size: 0.9rem;
+  }
+</style>

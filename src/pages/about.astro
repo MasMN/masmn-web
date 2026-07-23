@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import StatCard from '../components/StatCard.astro';
+
+const values = [
+  {
+    title: 'Interfaith Collaboration',
+    description: 'From Ramadan Iftars to the Rabbi Imam Round Table, we build bridges across faith communities.',
+  },
+  {
+    title: 'Social Services',
+    description: 'A food shelf and case management help neighbors meet their most basic needs, regardless of faith.',
+  },
+  {
+    title: 'Civic Participation',
+    description: 'Non-partisan voter registration and public affairs work rooted in one of the largest Muslim voter databases in the state.',
+  },
+  {
+    title: 'Youth & Education',
+    description: 'Sunday school, mentorship, and retreats raise a confident next generation of Minnesota Muslims.',
+  },
+];
+---
+
+<BaseLayout title="About" description="MAS Minnesota is the state chapter of the Muslim American Society, founded nationally in 1993. Learn about our mission, history, and impact across Minnesota.">
+  <PageHero
+    eyebrow="About MAS MN"
+    title="An Islamic revival and reform movement"
+    lede="MAS Minnesota is committed to making Minnesota a better place for all Minnesotans through religious programming, social services, and civic engagement."
+  />
+
+  <section class="section">
+    <div class="container about-grid">
+      <div>
+        <p class="eyebrow">Our History</p>
+        <h2>Rooted nationally, grown locally</h2>
+        <p>
+          The Muslim American Society was founded nationally in 1993 as a religious, cultural,
+          and social organization. Over three decades it has grown into a recognized grassroots
+          movement with a presence across the country. MAS Minnesota is the Minnesota chapter —
+          headquartered in St. Paul and serving families across the Twin Cities metro.
+        </p>
+        <p>
+          Today, MAS Minnesota oversees eight masajid, a full slate of religious and community
+          programs, and a public affairs effort that makes it one of the most active Muslim
+          civic organizations in the state.
+        </p>
+      </div>
+      <div class="about-stats grid">
+        <StatCard value="1993" label="MAS founded nationally" />
+        <StatCard value="8" label="Masajid in Minnesota" />
+        <StatCard value="61,000+" label="Registered Muslim voters" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sand">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">What We Stand For</p>
+        <h2>Core commitments</h2>
+      </div>
+      <div class="grid grid-2">
+        {
+          values.map((value) => (
+            <div class="card">
+              <h3>{value.title}</h3>
+              <p>{value.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Organization</p>
+        <h2>How we're organized</h2>
+        <p class="lede">
+          Leadership is centralized at our St. Paul headquarters, coordinating a network of eight
+          masajid and community programs across the metro. Each masjid maintains its own local
+          community while drawing on shared bureaus for khateebs, youth programming, and social
+          services.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 3rem;
+    align-items: start;
+  }
+
+  .about-stats {
+    background: var(--color-green-50);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+  }
+
+  .about-stats :global(.stat-card__value) {
+    color: var(--color-green-700);
+  }
+
+  .about-stats :global(.stat-card__label) {
+    color: var(--color-ink-700);
+  }
+
+  .about-stats.grid {
+    gap: 1.5rem;
+  }
+
+  .section-head {
+    max-width: 42rem;
+    margin-bottom: 2.5rem;
+  }
+
+  @media (max-width: 860px) {
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

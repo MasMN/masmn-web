@@ -1,0 +1,22 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import MasjidCard from '../../components/MasjidCard.astro';
+import { masajids } from '../../data/masajids';
+---
+
+<BaseLayout title="Our Masajid" description="Find prayer times, addresses, and programming at one of MAS Minnesota's eight masajid across the Twin Cities.">
+  <PageHero
+    eyebrow="Our Masajid"
+    title="Eight communities, one family"
+    lede="From Blaine to Lakeville, MAS Minnesota masajid offer daily prayers, Jumu'ah, and community programming for every neighborhood we serve."
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-3">
+        {masajids.map((masjid) => <MasjidCard masjid={masjid} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import { programs } from '../../data/programs';
+import { siteInfo } from '../../data/site';
+
+export function getStaticPaths() {
+  return programs.map((program) => ({
+    params: { slug: program.slug },
+    props: { program },
+  }));
+}
+
+const { program } = Astro.props;
+---
+
+<BaseLayout title={program.name} description={program.summary}>
+  <PageHero eyebrow={program.category} title={program.name} lede={program.summary} />
+
+  <section class="section">
+    <div class="container detail-grid">
+      <div>
+        <h2>Overview</h2>
+        <p>{program.description}</p>
+      </div>
+      <div class="card detail-card">
+        <h3>Get Involved</h3>
+        <p>Interested in this program? Reach out to the MAS Minnesota office to learn how to participate or volunteer.</p>
+        <p>
+          <a href={siteInfo.phoneHref}>{siteInfo.phone}</a><br />
+          <a href={`mailto:${siteInfo.email}`}>{siteInfo.email}</a>
+        </p>
+        <a href="/programs/" class="btn btn-outline-dark">&larr; All Programs</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 3rem;
+  }
+
+  .detail-card {
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  @media (max-width: 800px) {
+    .detail-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

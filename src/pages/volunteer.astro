@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { siteInfo } from '../data/site';
+
+const opportunities = [
+  { title: 'Food Shelf', description: 'Help sort, stock, and distribute groceries to families in need.' },
+  { title: 'Youth Mentorship', description: 'Guide and support MAS Youth participants as a mentor or activity leader.' },
+  { title: 'Sunday School', description: 'Teach or assist in weekend Qur’an and Islamic studies classes.' },
+  { title: 'Events & Convention', description: 'Support logistics, hospitality, and registration at community events.' },
+];
+---
+
+<BaseLayout title="Volunteer" description="Volunteer with MAS Minnesota at the food shelf, youth programs, Sunday school, and community events.">
+  <PageHero
+    eyebrow="Get Involved"
+    title="Volunteer with MAS Minnesota"
+    lede="Our programs run on community effort. Whether you have an hour or a season, there's a place for you to serve."
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-2">
+        {
+          opportunities.map((item) => (
+            <div class="card">
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </div>
+          ))
+        }
+      </div>
+      <div class="section-cta">
+        <a href={`mailto:${siteInfo.email}`} class="btn btn-primary">Email to Volunteer</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .section-cta {
+    margin-top: 2.5rem;
+  }
+</style>
