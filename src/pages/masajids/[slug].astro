@@ -1,6 +1,8 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PageHero from '../../components/PageHero.astro';
+import PrayerTimes from '../../components/PrayerTimes.astro';
 import { masajids } from '../../data/masajids';
 import { siteInfo } from '../../data/site';
 
@@ -18,33 +20,65 @@ const { masjid } = Astro.props;
   <PageHero eyebrow={masjid.city} title={masjid.name} lede={masjid.description} />
 
   <section class="section">
-    <div class="container detail-grid">
-      <div>
-        <h2>About this masjid</h2>
-        <p>{masjid.description}</p>
-        <p>
-          Contact the MAS Minnesota office for current prayer times, Jumu'ah schedule, and
-          programming specific to {masjid.name}.
-        </p>
-      </div>
-      <div class="card detail-card">
-        <h3>Visit</h3>
-        <p>{masjid.address}</p>
-        <p>
-          <a href={siteInfo.phoneHref}>{siteInfo.phone}</a><br />
-          <a href={`mailto:${siteInfo.email}`}>{siteInfo.email}</a>
-        </p>
-        <a href="/masajids/" class="btn btn-outline-dark">&larr; All Masajid</a>
+    <div class="container">
+      <Image
+        src={masjid.image}
+        alt={`Congregation at ${masjid.name}`}
+        width={1200}
+        height={675}
+        class="masjid-photo"
+      />
+
+      <div class="detail-grid">
+        <div>
+          <h2>About this masjid</h2>
+          <p>{masjid.description}</p>
+          <p>
+            Contact the MAS Minnesota office for Jumu'ah schedule and programming specific to{' '}
+            {masjid.name}.
+          </p>
+        </div>
+        <div class="detail-side">
+          <div class="card detail-card">
+            <h3>Visit</h3>
+            <p>{masjid.address}</p>
+            <p>
+              <a href={siteInfo.phoneHref}>{siteInfo.phone}</a><br />
+              <a href={`mailto:${siteInfo.email}`}>{siteInfo.email}</a>
+            </p>
+            <a href="/masajids/" class="btn btn-outline-dark">&larr; All Masajid</a>
+          </div>
+
+          <div>
+            <h3>Prayer Times</h3>
+            <PrayerTimes masjidId={masjid.masjidalId} />
+          </div>
+        </div>
       </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
+  .masjid-photo {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin-bottom: 3rem;
+  }
+
   .detail-grid {
     display: grid;
     grid-template-columns: 1.5fr 1fr;
     gap: 3rem;
+  }
+
+  .detail-side {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
 
   .detail-card {

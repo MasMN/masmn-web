@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import { siteInfo } from '../data/site';
+import foodShelfPhoto from '../assets/images/gallery-food-shelf.jpg';
 
 const opportunities = [
   { title: 'Food Shelf', description: 'Help sort, stock, and distribute groceries to families in need.' },
@@ -20,6 +22,13 @@ const opportunities = [
 
   <section class="section">
     <div class="container">
+      <Image
+        src={foodShelfPhoto}
+        alt="Volunteers stocking tables at the MAS Minnesota food shelf"
+        width={1200}
+        height={500}
+        class="volunteer-photo"
+      />
       <div class="grid grid-2">
         {
           opportunities.map((item) => (
@@ -38,6 +47,15 @@ const opportunities = [
 </BaseLayout>
 
 <style>
+  .volunteer-photo {
+    width: 100%;
+    aspect-ratio: 12 / 5;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin-bottom: 3rem;
+  }
+
   .section-cta {
     margin-top: 2.5rem;
   }

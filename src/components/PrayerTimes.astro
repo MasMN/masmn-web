@@ -1,0 +1,218 @@
+---
+interface Props {
+  masjidId: string;
+  /** Marks the container so page-level scripts (e.g. a masjid picker) can find and refresh it. */
+  role?: string;
+}
+
+const { masjidId, role } = Astro.props;
+---
+
+<div class="prayer-times" data-masjid-id={masjidId} data-role={role}>
+  <div class="prayer-times__head">
+    <p class="prayer-times__status" data-role="status">Loading today's prayer times…</p>
+    <p class="prayer-times__date" data-role="date"></p>
+  </div>
+  <div class="prayer-times__grid" data-role="grid" hidden>
+    <div class="prayer-times__row prayer-times__row--head">
+      <span></span>
+      <span>Athan</span>
+      <span>Iqamah</span>
+    </div>
+  </div>
+  <a
+    class="prayer-times__monthly"
+    data-role="monthly-link"
+    href={`https://masjidal.com/widget/monthly/?masjid_id=${masjidId}`}
+    target="_blank"
+    rel="noopener noreferrer"
+  >
+    Monthly Prayer Timetable &rarr;
+  </a>
+  <noscript>
+    <p class="prayer-times__noscript">
+      Enable JavaScript to see today's prayer times, or view the
+      <a href={`https://masjidal.com/widget/monthly/?masjid_id=${masjidId}`} target="_blank" rel="noopener noreferrer">
+        monthly timetable
+      </a>.
+    </p>
+  </noscript>
+</div>
+
+<style>
+  .prayer-times {
+    background: var(--color-white);
+    border: 1px solid rgba(13, 59, 46, 0.08);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .prayer-times__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .prayer-times__status {
+    margin: 0;
+    color: var(--color-ink-700);
+    font-size: 0.95rem;
+  }
+
+  .prayer-times__date {
+    margin: 0;
+    color: var(--color-gold-600);
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+
+  .prayer-times__grid {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid rgba(13, 59, 46, 0.1);
+  }
+
+  /*
+   * :global is required for the row rules: data rows are injected client-side via
+   * document.createElement, so they never receive Astro's scoping attribute and would
+   * otherwise fall outside scoped selectors.
+   */
+  :global(.prayer-times__row) {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    align-items: center;
+    gap: 1rem;
+    padding-block: 0.6rem;
+    border-bottom: 1px solid rgba(13, 59, 46, 0.08);
+    font-size: 0.95rem;
+  }
+
+  :global(.prayer-times__row--head) {
+    color: var(--color-ink-500);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    border-bottom: none;
+    padding-bottom: 0.35rem;
+  }
+
+  :global(.prayer-times__row span:not(:first-child)) {
+    text-align: right;
+  }
+
+  :global(.prayer-times__name) {
+    font-weight: 600;
+    color: var(--color-green-900);
+    text-transform: capitalize;
+  }
+
+  .prayer-times__monthly {
+    display: inline-block;
+    margin-top: 1.25rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-green-700);
+    text-decoration: none;
+  }
+
+  .prayer-times__monthly:hover {
+    color: var(--color-green-800);
+    text-decoration: underline;
+  }
+
+  .prayer-times__noscript {
+    color: var(--color-ink-700);
+    font-size: 0.9rem;
+  }
+</style>
+
+<script>
+  interface SalahTime {
+    date: string;
+    fajr: string;
+    sunrise: string;
+    zuhr: string;
+    asr: string;
+    maghrib: string;
+    isha: string;
+  }
+
+  interface IqamahTime {
+    fajr: string;
+    zuhr: string;
+    asr: string;
+    maghrib: string;
+    isha: string;
+    jummah1: string;
+    jummah2: string;
+  }
+
+  function formatTime(time: string | undefined | null): string {
+    if (!time) return '–';
+    const trimmed = time.replace(/\s+/g, '');
+    return `${trimmed.slice(0, -2)}${trimmed.slice(-2).toLowerCase()}`;
+  }
+
+  async function loadPrayerTimes(container: HTMLElement) {
+    const masjidId = container.dataset.masjidId;
+    const statusEl = container.querySelector<HTMLElement>('[data-role="status"]');
+    const dateEl = container.querySelector<HTMLElement>('[data-role="date"]');
+    const gridEl = container.querySelector<HTMLElement>('[data-role="grid"]');
+    const monthlyLink = container.querySelector<HTMLAnchorElement>('[data-role="monthly-link"]');
+
+    if (!masjidId || !statusEl || !dateEl || !gridEl) return;
+
+    gridEl.hidden = true;
+    statusEl.hidden = false;
+    statusEl.textContent = "Loading today's prayer times…";
+    if (monthlyLink) {
+      monthlyLink.href = `https://masjidal.com/widget/monthly/?masjid_id=${masjidId}`;
+    }
+
+    try {
+      const response = await fetch(`https://masjidal.com/api/v1/time/range?masjid_id=${masjidId}`);
+      if (!response.ok) throw new Error(`Request failed with ${response.status}`);
+      const payload = await response.json();
+      const salah: SalahTime | undefined = payload?.data?.salah?.[0];
+      const iqamah: IqamahTime | undefined = payload?.data?.iqamah?.[0];
+      if (!salah || !iqamah) throw new Error('Unexpected response shape');
+
+      const rows: Array<[string, string | undefined, string | undefined]> = [
+        ['Fajr', salah.fajr, iqamah.fajr],
+        ['Sunrise', salah.sunrise, undefined],
+        ['Dhuhr', salah.zuhr, iqamah.zuhr],
+        ['Asr', salah.asr, iqamah.asr],
+        ['Maghrib', salah.maghrib, iqamah.maghrib],
+        ['Isha', salah.isha, iqamah.isha],
+        ["Jumu'ah", iqamah.jummah1, iqamah.jummah2],
+      ];
+
+      gridEl.querySelectorAll('[data-generated-row]').forEach((row) => row.remove());
+      for (const [name, athan, iq] of rows) {
+        const row = document.createElement('div');
+        row.className = 'prayer-times__row';
+        row.dataset.generatedRow = '';
+        row.innerHTML = `<span class="prayer-times__name">${name}</span><span>${formatTime(athan)}</span><span>${iq ? formatTime(iq) : '–'}</span>`;
+        gridEl.appendChild(row);
+      }
+
+      dateEl.textContent = salah.date ?? '';
+      gridEl.hidden = false;
+      statusEl.hidden = true;
+    } catch (error) {
+      statusEl.textContent = 'Prayer times are temporarily unavailable. Please use the monthly timetable below.';
+    }
+  }
+
+  function initPrayerTimes(container: Element) {
+    if (!(container instanceof HTMLElement)) return;
+    loadPrayerTimes(container);
+    container.addEventListener('prayertimes:refresh', () => loadPrayerTimes(container));
+  }
+
+  document.querySelectorAll('.prayer-times[data-masjid-id]').forEach(initPrayerTimes);
+</script>
