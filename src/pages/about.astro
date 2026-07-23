@@ -1,7 +1,9 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import StatCard from '../components/StatCard.astro';
+import khutbahPhoto from '../assets/images/gallery-jumuah-khutbah.jpg';
 
 const values = [
   {
@@ -31,6 +33,15 @@ const values = [
   />
 
   <section class="section">
+    <div class="container">
+      <Image
+        src={khutbahPhoto}
+        alt="An imam delivering a khutbah to young men at a MAS Minnesota masjid"
+        width={1200}
+        height={500}
+        class="about-photo"
+      />
+    </div>
     <div class="container about-grid">
       <div>
         <p class="eyebrow">Our History</p>
@@ -91,6 +102,15 @@ const values = [
 </BaseLayout>
 
 <style>
+  .about-photo {
+    width: 100%;
+    aspect-ratio: 12 / 5;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    margin-bottom: 3rem;
+  }
+
   .about-grid {
     display: grid;
     grid-template-columns: 1.4fr 1fr;

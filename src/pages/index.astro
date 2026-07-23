@@ -1,14 +1,28 @@
 ---
+import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import StatCard from '../components/StatCard.astro';
 import MasjidCard from '../components/MasjidCard.astro';
 import ProgramCard from '../components/ProgramCard.astro';
+import PrayerTimes from '../components/PrayerTimes.astro';
 import { masajids } from '../data/masajids';
 import { programs } from '../data/programs';
 import { siteInfo } from '../data/site';
+import heroPhoto from '../assets/images/hero-community.png';
+import galleryFoodShelf from '../assets/images/gallery-food-shelf.jpg';
+import galleryEidPrayer from '../assets/images/gallery-eid-prayer.jpg';
+import gallerySundaySchool from '../assets/images/gallery-sunday-school.jpg';
+import galleryJumuah from '../assets/images/gallery-jumuah-khutbah.jpg';
 
 const featuredMasajid = masajids.slice(0, 4);
 const featuredPrograms = programs.slice(0, 6);
+
+const gallery = [
+  { image: galleryEidPrayer, caption: 'Eid prayer brings the community together each year.' },
+  { image: gallerySundaySchool, caption: 'Sunday school raises the next generation of Minnesota Muslims.' },
+  { image: galleryFoodShelf, caption: 'The MAS MN food shelf serves neighbors in need year-round.' },
+  { image: galleryJumuah, caption: 'Weekly Jumu’ah khutbah at one of our eight masajid.' },
+];
 ---
 
 <BaseLayout title="MAS Minnesota" description="MAS Minnesota is an Islamic revival and reform movement serving eight masajid and communities across the Twin Cities through worship, education, youth programs, and social services.">
@@ -27,11 +41,20 @@ const featuredPrograms = programs.slice(0, 6);
           <a href="/masajids/" class="btn btn-outline">Find a Masjid</a>
         </div>
       </div>
-      <div class="hero__stats grid grid-2">
-        <StatCard value="8" label="Masajid across Minnesota" />
-        <StatCard value="30+" label="Years of community service" />
-        <StatCard value="61,000+" label="Registered Muslim voters" />
-        <StatCard value="10+" label="Active programs & bureaus" />
+      <div class="hero__visual">
+        <Image
+          src={heroPhoto}
+          alt="Two girls smiling at a MAS Minnesota community event"
+          width={480}
+          height={620}
+          class="hero__photo"
+        />
+        <div class="hero__stats grid grid-2">
+          <StatCard value="8" label="Masajid across Minnesota" />
+          <StatCard value="30+" label="Years of community service" />
+          <StatCard value="61,000+" label="Registered Muslim voters" />
+          <StatCard value="10+" label="Active programs & bureaus" />
+        </div>
       </div>
     </div>
   </section>
@@ -52,6 +75,27 @@ const featuredPrograms = programs.slice(0, 6);
     </div>
   </section>
 
+  <section class="section" id="prayer-times">
+    <div class="container">
+      <div class="section-head prayer-section-head">
+        <div>
+          <p class="eyebrow">Prayer Times</p>
+          <h2>Today's prayer times</h2>
+          <p class="lede">Live Athan and Iqamah times, pulled straight from each masjid's prayer clock.</p>
+        </div>
+        <label class="prayer-select" for="prayer-masjid-select">
+          Choose a masjid
+          <select id="prayer-masjid-select">
+            {masajids.map((masjid) => <option value={masjid.masjidalId}>{masjid.name}</option>)}
+          </select>
+        </label>
+      </div>
+      <div class="prayer-times-wrap">
+        <PrayerTimes masjidId={masajids[0].masjidalId} role="home-prayer-times" />
+      </div>
+    </div>
+  </section>
+
   <section class="section section--sand">
     <div class="container">
       <div class="section-head">
@@ -64,6 +108,26 @@ const featuredPrograms = programs.slice(0, 6);
       </div>
       <div class="section-cta">
         <a href="/masajids/" class="btn btn-ghost">View all 8 masajid &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Life at MAS Minnesota</p>
+        <h2>Community in photos</h2>
+        <p class="lede">A look at worship, learning, and service across our masajid.</p>
+      </div>
+      <div class="grid grid-4 gallery-grid">
+        {
+          gallery.map((item) => (
+            <figure class="gallery-item">
+              <Image src={item.image} alt={item.caption} width={400} height={300} />
+              <figcaption>{item.caption}</figcaption>
+            </figure>
+          ))
+        }
       </div>
     </div>
   </section>
@@ -130,6 +194,21 @@ const featuredPrograms = programs.slice(0, 6);
     flex-wrap: wrap;
   }
 
+  .hero__visual {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .hero__photo {
+    width: 100%;
+    max-width: 22rem;
+    margin-inline: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+  }
+
   .hero__stats {
     background: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.12);
@@ -164,6 +243,61 @@ const featuredPrograms = programs.slice(0, 6);
     margin-top: 2.5rem;
   }
 
+  .prayer-section-head {
+    max-width: none;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .prayer-select {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--color-ink-700);
+  }
+
+  .prayer-select select {
+    font: inherit;
+    font-weight: 600;
+    color: var(--color-green-900);
+    background: var(--color-white);
+    border: 1px solid rgba(13, 59, 46, 0.2);
+    border-radius: var(--radius-md);
+    padding: 0.6rem 1rem;
+    min-width: 14rem;
+  }
+
+  .prayer-times-wrap {
+    max-width: 32rem;
+  }
+
+  .gallery-grid {
+    align-items: start;
+  }
+
+  .gallery-item {
+    margin: 0;
+  }
+
+  .gallery-item :global(img) {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .gallery-item figcaption {
+    margin-top: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--color-ink-700);
+  }
+
   .convention__inner,
   .cta-band__inner {
     display: flex;
@@ -189,3 +323,14 @@ const featuredPrograms = programs.slice(0, 6);
     }
   }
 </style>
+
+<script>
+  const select = document.querySelector<HTMLSelectElement>('#prayer-masjid-select');
+  const container = document.querySelector<HTMLElement>('[data-role="home-prayer-times"]');
+
+  select?.addEventListener('change', () => {
+    if (!container) return;
+    container.dataset.masjidId = select.value;
+    container.dispatchEvent(new CustomEvent('prayertimes:refresh'));
+  });
+</script>
