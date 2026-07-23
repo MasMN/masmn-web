@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { siteInfo, socialLinks } from '../data/site';
+---
+
+<BaseLayout title="Contact" description="Get in touch with MAS Minnesota. Call, email, or visit our St. Paul headquarters.">
+  <PageHero eyebrow="Get in Touch" title="Contact MAS Minnesota" lede="Have a question about a masjid, program, or how to get involved? We'd love to hear from you." />
+
+  <section class="section">
+    <div class="container contact-grid">
+      <div class="card">
+        <h3>Headquarters</h3>
+        <p>{siteInfo.address}</p>
+      </div>
+      <div class="card">
+        <h3>Phone &amp; Email</h3>
+        <p>
+          <a href={siteInfo.phoneHref}>{siteInfo.phone}</a><br />
+          <a href={`mailto:${siteInfo.email}`}>{siteInfo.email}</a>
+        </p>
+      </div>
+      <div class="card">
+        <h3>Follow Us</h3>
+        <ul class="social-list">
+          {
+            socialLinks.map((link) => (
+              <li>
+                <a href={link.href} target="_blank" rel="noopener noreferrer">
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .social-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .social-list a {
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--color-green-700);
+  }
+</style>

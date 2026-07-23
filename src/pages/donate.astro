@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { siteInfo } from '../data/site';
+
+const funds = [
+  { title: 'General Fund', description: 'Supports masjid operations, khateebs, and day-to-day programming across all eight locations.' },
+  { title: 'Food Shelf', description: 'Keeps shelves stocked for families facing food insecurity across the metro.' },
+  { title: 'Youth Programs', description: 'Funds mentorship, retreats, and Sunday school for the next generation.' },
+  { title: 'Masjid Building Fund', description: 'Supports the growth and maintenance of masjid facilities across Minnesota.' },
+];
+---
+
+<BaseLayout title="Donate" description="Support MAS Minnesota's masajid, youth programs, food shelf, and civic engagement work with a donation.">
+  <PageHero
+    eyebrow="Give Today"
+    title="Support the work of MAS Minnesota"
+    lede="Your donation funds prayer space, education, the food shelf, and civic engagement for Minnesota Muslims — and the whole community."
+  />
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid-2">
+        {
+          funds.map((fund) => (
+            <div class="card">
+              <h3>{fund.title}</h3>
+              <p>{fund.description}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sand">
+    <div class="container donate-note">
+      <h2>Ways to give</h2>
+      <p class="lede">
+        MAS Minnesota accepts donations by mail, in person at any of our eight masajid, and
+        through our membership fee program. For online giving options or to set up a recurring
+        contribution, contact our office directly.
+      </p>
+      <div class="hero__actions">
+        <a href={siteInfo.phoneHref} class="btn btn-primary">Call {siteInfo.phone}</a>
+        <a href={`mailto:${siteInfo.email}`} class="btn btn-outline-dark">Email Us</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .donate-note {
+    max-width: 42rem;
+  }
+
+  .hero__actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+</style>

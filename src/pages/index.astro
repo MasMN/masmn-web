@@ -1,0 +1,191 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StatCard from '../components/StatCard.astro';
+import MasjidCard from '../components/MasjidCard.astro';
+import ProgramCard from '../components/ProgramCard.astro';
+import { masajids } from '../data/masajids';
+import { programs } from '../data/programs';
+import { siteInfo } from '../data/site';
+
+const featuredMasajid = masajids.slice(0, 4);
+const featuredPrograms = programs.slice(0, 6);
+---
+
+<BaseLayout title="MAS Minnesota" description="MAS Minnesota is an Islamic revival and reform movement serving eight masajid and communities across the Twin Cities through worship, education, youth programs, and social services.">
+  <section class="hero section--green">
+    <div class="container hero__inner">
+      <div class="hero__content">
+        <p class="eyebrow">Muslim American Society of Minnesota</p>
+        <h1>Uplifting the individual, the family, and the society.</h1>
+        <p class="lede">
+          MAS Minnesota connects eight masajid and thousands of families across the Twin Cities
+          through worship, education, youth mentorship, and social services — building a stronger
+          Minnesota for all Minnesotans.
+        </p>
+        <div class="hero__actions">
+          <a href={siteInfo.donateUrl} class="btn btn-primary">Give Today</a>
+          <a href="/masajids/" class="btn btn-outline">Find a Masjid</a>
+        </div>
+      </div>
+      <div class="hero__stats grid grid-2">
+        <StatCard value="8" label="Masajid across Minnesota" />
+        <StatCard value="30+" label="Years of community service" />
+        <StatCard value="61,000+" label="Registered Muslim voters" />
+        <StatCard value="10+" label="Active programs & bureaus" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container mission">
+      <div class="mission__text">
+        <p class="eyebrow">Our Mission</p>
+        <h2>An Islamic revival and reform movement</h2>
+        <p class="lede">
+          Since 1993, the Muslim American Society has grown into a nationwide grassroots
+          movement. Here in Minnesota, that means eight masajid, a full calendar of religious
+          programming, a food shelf, youth mentorship, and a civic engagement effort that helps
+          Minnesota Muslims show up and be heard.
+        </p>
+        <a href="/about/" class="btn btn-outline-dark">More about MAS MN &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--sand">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Our Masajid</p>
+        <h2>Eight communities, one family</h2>
+        <p class="lede">From Blaine to Lakeville, find prayer times, addresses, and programming at a masjid near you.</p>
+      </div>
+      <div class="grid grid-4">
+        {featuredMasajid.map((masjid) => <MasjidCard masjid={masjid} />)}
+      </div>
+      <div class="section-cta">
+        <a href="/masajids/" class="btn btn-ghost">View all 8 masajid &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Programs &amp; Services</p>
+        <h2>Faith, family, and community in action</h2>
+        <p class="lede">From Sunday school to the food shelf, our bureaus serve the whole community — Muslim and non-Muslim alike.</p>
+      </div>
+      <div class="grid grid-3">
+        {featuredPrograms.map((program) => <ProgramCard program={program} />)}
+      </div>
+      <div class="section-cta">
+        <a href="/programs/" class="btn btn-ghost">Explore all programs &rarr;</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--green convention">
+    <div class="container convention__inner">
+      <div>
+        <p class="eyebrow">Annual Event</p>
+        <h2>Minnesota Muslim Convention</h2>
+        <p class="lede">
+          Join thousands of community members each year for lectures, bazaars, and family
+          programming at the Minnesota Muslim Convention.
+        </p>
+      </div>
+      <a href={siteInfo.conventionUrl} class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+        Visit Convention Site &rarr;
+      </a>
+    </div>
+  </section>
+
+  <section class="section cta-band">
+    <div class="container cta-band__inner">
+      <div>
+        <h2>Support the work</h2>
+        <p class="lede">Your donation funds prayer space, youth programs, the food shelf, and civic engagement for Minnesota Muslims.</p>
+      </div>
+      <div class="cta-band__actions">
+        <a href={siteInfo.donateUrl} class="btn btn-primary">Donate Now</a>
+        <a href="/volunteer/" class="btn btn-outline-dark">Volunteer</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero__inner {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    padding-block: clamp(3rem, 6vw, 5rem);
+  }
+
+  .hero__actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .hero__stats {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-lg);
+    padding: 2rem;
+  }
+
+  .mission {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .mission__text {
+    max-width: 48rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .mission__text .lede {
+    max-width: 42rem;
+  }
+
+  .section-head {
+    max-width: 42rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .section-cta {
+    margin-top: 2.5rem;
+  }
+
+  .convention__inner,
+  .cta-band__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .cta-band {
+    background: var(--color-sand-100);
+  }
+
+  .cta-band__actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 900px) {
+    .hero__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

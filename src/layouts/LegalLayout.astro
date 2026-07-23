@@ -1,0 +1,36 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+interface Props {
+  title: string;
+  updated?: string;
+}
+
+const { title, updated } = Astro.props;
+---
+
+<BaseLayout title={title}>
+  <PageHero eyebrow="Policy" title={title} />
+  <section class="section">
+    <div class="container legal-content">
+      {updated && <p class="updated">Last updated: {updated}</p>}
+      <slot />
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-content {
+    max-width: 46rem;
+  }
+
+  .legal-content :global(h2) {
+    margin-top: 2rem;
+  }
+
+  .updated {
+    color: var(--color-ink-500);
+    font-size: 0.9rem;
+  }
+</style>

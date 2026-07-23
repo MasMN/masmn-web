@@ -1,0 +1,40 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import ProgramCard from '../../components/ProgramCard.astro';
+import { programs } from '../../data/programs';
+
+const categories = ['Religious Life', 'Youth & Family', 'Community & Civic'] as const;
+---
+
+<BaseLayout title="Programs & Services" description="Explore MAS Minnesota's religious, youth, and community programs — from the Khateeb Bureau and Sunday School to the Food Shelf and civic engagement.">
+  <PageHero
+    eyebrow="Programs & Services"
+    title="Faith, family, and community in action"
+    lede="Ten bureaus and programs carry out MAS Minnesota's mission across religious life, youth and family, and community and civic engagement."
+  />
+
+  {
+    categories.map((category) => {
+      const items = programs.filter((program) => program.category === category);
+      return (
+        <section class="section">
+          <div class="container">
+            <div class="section-head">
+              <h2>{category}</h2>
+            </div>
+            <div class="grid grid-3">
+              {items.map((program) => <ProgramCard program={program} />)}
+            </div>
+          </div>
+        </section>
+      );
+    })
+  }
+</BaseLayout>
+
+<style>
+  .section-head {
+    margin-bottom: 2rem;
+  }
+</style>
