@@ -77,21 +77,23 @@ const gallery = [
 
   <section class="section" id="prayer-times">
     <div class="container">
-      <div class="section-head prayer-section-head">
-        <div>
-          <p class="eyebrow">Prayer Times</p>
-          <h2>Today's prayer times</h2>
-          <p class="lede">Live Athan and Iqamah times, pulled straight from each masjid's prayer clock.</p>
+      <div class="section-head">
+        <p class="eyebrow">Prayer Times</p>
+        <h2>Today's prayer times</h2>
+        <p class="lede">Live Athan and Iqamah times, pulled straight from each masjid's prayer clock.</p>
+      </div>
+      <div class="prayer-panel">
+        <div class="prayer-panel__widget">
+          <PrayerTimes masjidId={masajids[0].masjidalId} role="home-prayer-times" />
         </div>
-        <label class="prayer-select" for="prayer-masjid-select">
-          Choose a masjid
+        <div class="card prayer-panel__picker">
+          <h3>Choose a masjid</h3>
+          <label class="visually-hidden" for="prayer-masjid-select">Choose a masjid</label>
           <select id="prayer-masjid-select">
             {masajids.map((masjid) => <option value={masjid.masjidalId}>{masjid.name}</option>)}
           </select>
-        </label>
-      </div>
-      <div class="prayer-times-wrap">
-        <PrayerTimes masjidId={masajids[0].masjidalId} role="home-prayer-times" />
+          <p>Switch masjid to see its live Athan and Iqamah times and monthly timetable.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -216,6 +218,12 @@ const gallery = [
     padding: 2rem;
   }
 
+  @media (min-width: 640px) {
+    .hero__stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
   .mission {
     display: flex;
     justify-content: center;
@@ -243,37 +251,44 @@ const gallery = [
     margin-top: 2.5rem;
   }
 
-  .prayer-section-head {
-    max-width: none;
+  .prayer-panel {
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
+    align-items: stretch;
     gap: 2rem;
     flex-wrap: wrap;
   }
 
-  .prayer-select {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-    font-weight: 600;
-    font-size: 0.85rem;
-    color: var(--color-ink-700);
+  .prayer-panel__widget {
+    flex: 1 1 26rem;
+    max-width: 36rem;
   }
 
-  .prayer-select select {
+  .prayer-panel__picker {
+    flex: 1 1 16rem;
+    max-width: 22rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .prayer-panel__picker h3 {
+    margin-bottom: 1rem;
+  }
+
+  .prayer-panel__picker select {
     font: inherit;
     font-weight: 600;
     color: var(--color-green-900);
-    background: var(--color-white);
+    background: var(--color-sand-50);
     border: 1px solid rgba(13, 59, 46, 0.2);
     border-radius: var(--radius-md);
-    padding: 0.6rem 1rem;
-    min-width: 14rem;
+    padding: 0.75rem 1rem;
+    width: 100%;
   }
 
-  .prayer-times-wrap {
-    max-width: 32rem;
+  .prayer-panel__picker p {
+    margin: 1rem 0 0;
+    color: var(--color-ink-700);
+    font-size: 0.9rem;
   }
 
   .gallery-grid {
