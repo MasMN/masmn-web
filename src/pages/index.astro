@@ -80,9 +80,9 @@ const gallery = [
     </div>
   </section>
 
-  <section class="section" id="prayer-times">
+  <section class="section prayer-times-section" id="prayer-times">
     <div class="container">
-      <div class="section-head">
+      <div class="section-head prayer-times-section__head">
         <p class="eyebrow">Prayer Times</p>
         <h2>Today's prayer times</h2>
         <p class="lede">Live Athan and Iqamah times, pulled straight from each masjid's prayer clock.</p>
@@ -117,7 +117,7 @@ const gallery = [
     </div>
   </section>
 
-  <section class="section">
+  <section class="section gallery-section">
     <div class="container">
       <div class="section-head">
         <p class="eyebrow">Life at MAS Minnesota</p>
@@ -137,7 +137,7 @@ const gallery = [
     </div>
   </section>
 
-  <section class="section">
+  <section class="section programs-section">
     <div class="container">
       <div class="section-head">
         <p class="eyebrow">Programs &amp; Services</p>
@@ -215,6 +215,7 @@ const gallery = [
   }
 
   .stats-band {
+    background: var(--color-green-700);
     border-top: 1px solid rgba(255, 255, 255, 0.12);
   }
 
@@ -251,6 +252,24 @@ const gallery = [
 
   .section-cta {
     margin-top: 2.5rem;
+  }
+
+  .prayer-times-section {
+    background: var(--color-green-50);
+  }
+
+  .prayer-times-section__head {
+    margin-inline: auto;
+    text-align: center;
+  }
+
+  .prayer-times-section__head .eyebrow {
+    justify-content: center;
+    color: var(--color-green-700);
+  }
+
+  .prayer-times-section__head .lede {
+    margin-inline: auto;
   }
 
   .prayer-panel {
@@ -296,6 +315,14 @@ const gallery = [
     border-color: var(--color-green-700);
     box-shadow: var(--shadow-md);
     outline: none;
+  }
+
+  .gallery-section {
+    background: var(--color-white);
+  }
+
+  .programs-section {
+    background: var(--color-green-50);
   }
 
   .gallery-grid {
