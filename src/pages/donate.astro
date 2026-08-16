@@ -18,6 +18,18 @@ const funds = [
     lede="Your donation funds prayer space, education, the food shelf, and civic engagement for Minnesota Muslims — and the whole community."
   />
 
+  <section class="section give-online">
+    <div class="container give-online__inner">
+      <div>
+        <h2>Give online</h2>
+        <p class="lede">Make a secure one-time or recurring gift through our online giving portal.</p>
+      </div>
+      <a href={siteInfo.donateOnlineUrl} class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+        Give Online &rarr;
+      </a>
+    </div>
+  </section>
+
   <section class="section">
     <div class="container">
       <div class="grid grid-2">
@@ -37,12 +49,13 @@ const funds = [
     <div class="container donate-note">
       <h2>Ways to give</h2>
       <p class="lede">
-        MAS Minnesota accepts donations by mail, in person at any of our eight masajid, and
-        through our membership fee program. For online giving options or to set up a recurring
-        contribution, contact our office directly.
+        Give online anytime through our secure giving portal, or donate by mail, in person at any
+        of our eight masajid, or through our membership fee program. For recurring gifts or other
+        questions, contact our office directly.
       </p>
       <div class="hero__actions">
-        <a href={siteInfo.phoneHref} class="btn btn-primary">Call {siteInfo.phone}</a>
+        <a href={siteInfo.donateOnlineUrl} class="btn btn-primary" target="_blank" rel="noopener noreferrer">Give Online</a>
+        <a href={siteInfo.phoneHref} class="btn btn-outline-dark">Call {siteInfo.phone}</a>
         <a href={`mailto:${siteInfo.email}`} class="btn btn-outline-dark">Email Us</a>
       </div>
     </div>
@@ -50,6 +63,26 @@ const funds = [
 </BaseLayout>
 
 <style>
+  .give-online {
+    background: var(--color-green-50);
+  }
+
+  .give-online__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .give-online h2 {
+    margin-bottom: 0.5rem;
+  }
+
+  .give-online .lede {
+    margin: 0;
+  }
+
   .donate-note {
     max-width: 42rem;
   }
