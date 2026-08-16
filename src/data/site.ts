@@ -8,6 +8,7 @@ export const siteInfo = {
   email: 'info@masmn.org',
   address: '1608 Como Avenue, St. Paul, MN 55108',
   donateUrl: '/donate/',
+  donateOnlineUrl: 'https://give.masmn.org',
   conventionUrl: 'https://www.mnmuslimcon.com/',
 };
 
