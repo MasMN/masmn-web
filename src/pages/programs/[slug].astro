@@ -22,6 +22,13 @@ const { program } = Astro.props;
       <div>
         <h2>Overview</h2>
         <p>{program.description}</p>
+        {
+          program.highlights && (
+            <ul class="highlights">
+              {program.highlights.map((highlight) => <li>{highlight}</li>)}
+            </ul>
+          )
+        }
       </div>
       <div class="card detail-card">
         <h3>Get Involved</h3>
@@ -37,6 +44,32 @@ const { program } = Astro.props;
 </BaseLayout>
 
 <style>
+  .highlights {
+    margin: 1.5rem 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .highlights li {
+    position: relative;
+    padding-left: 1.5rem;
+    color: var(--color-ink-700);
+  }
+
+  .highlights li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.55em;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--color-green-700);
+  }
+
   .detail-grid {
     display: grid;
     grid-template-columns: 1.5fr 1fr;
